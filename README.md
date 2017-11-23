@@ -16,4 +16,4 @@ Polyply can:
 ## Why?
 Why not? It's mainly a personal learning for myself.
 
-[demo]: https://github.com/ianpaschal/poliply/raw/master/docs/readme/demo.gif "Slice & dice!"
+[demo]: https://github.com/ianpaschal/poliply/raw/master/docs/images/demo.gif "Slice & dice!"

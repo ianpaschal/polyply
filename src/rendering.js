@@ -17,6 +17,8 @@ const OrbitControls = OrbitControlModule( Three );
 
 import buildScene from "./utils/buildScene.js";
 
+const Gizmo = require("./core/Gizmo.js");
+
 let controls, stats, camera, renderer, helper;
 let SCENE = new Three.Scene();
 
@@ -41,8 +43,10 @@ window.onload = function() {
 				for ( let event of keyboardEvents ) {
 					// window.addEventListener( event, handleKeyboard, false );
 				}
-				console.log( buildScene );
 				STORE.state.scene.add( buildScene( STORE.state.bounds ) );
+				let gizzy = new Gizmo();
+				// STORE.state.scene.add( gizzy );
+				STORE.state.gizmo = gizzy;
 			});
 		},
 		beforeDestroy() {

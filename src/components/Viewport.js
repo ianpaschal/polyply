@@ -118,22 +118,82 @@ export default {
 			*/
 		},
 		mousemove( e ) {
-			this.mouse.screen.x = e.clientX;
-			this.mouse.screen.y = e.clientY;
+			this.mouse.screen.x = e.offsetX;
+			this.mouse.screen.y = e.offsetY;
 			this.raycast();
 			// this.$store.dispatch("updateBlueprint", this.quantized.world );
 			// ipcRenderer.send("update_blueprint", this.quantized.world );
+			if ( this.$store.state.move ) {
+				let intersects = this.raycaster.intersectObject( this.$store.state.gizmo, true );
+
+				// if there is one (or more) intersections
+				if ( intersects.length > 0 ) {
+					// if the closest object intersected is not the currently stored intersection object
+					if ( intersects[ 0 ].object != this.INTERSECTED ) {
+						// restore previous intersection object (if it exists) to its original color
+						if ( this.INTERSECTED ) {
+							if ( this.INTERSECTED.name === "handle") {
+								for ( let child of this.INTERSECTED.children ) {
+									child.material.color.setHex( this.INTERSECTED.currentHex );
+								}
+							} else {
+								this.INTERSECTED.material.color.setHex( this.INTERSECTED.currentHex );
+								this.INTERSECTED.material.opacity = this.INTERSECTED.originalOpacity;
+							}
+
+						}
+
+						if ( intersects[ 0 ].object.parent.name === "handle") {
+							this.INTERSECTED = intersects[ 0 ].object.parent;
+							// store color of closest object (for later restoration)
+							this.INTERSECTED.currentHex = this.INTERSECTED.children[ 0 ].material.color.getHex();
+							// set a new color for closest object
+							for ( let child of this.INTERSECTED.children ) {
+								child.material.color.setHex( 0xffff00 );
+							}
+						} else {
+							// store reference to closest object as current intersection object
+							this.INTERSECTED = intersects[ 0 ].object;
+							// store color of closest object (for later restoration)
+							this.INTERSECTED.currentHex = this.INTERSECTED.material.color.getHex();
+							this.INTERSECTED.originalOpacity = this.INTERSECTED.material.opacity;
+							// set a new color for closest object
+							this.INTERSECTED.material.color.setHex( 0xffff00 );
+							this.INTERSECTED.material.opacity = 1.0;
+						}
+					}
+				}
+				// there are no intersections
+				else {
+					// restore previous intersection object (if it exists) to its original color
+					if ( this.INTERSECTED ) {
+						if ( this.INTERSECTED.name === "handle") {
+							for ( let child of this.INTERSECTED.children ) {
+								child.material.color.setHex( this.INTERSECTED.currentHex );
+							}
+						} else {
+							this.INTERSECTED.material.color.setHex( this.INTERSECTED.currentHex );
+							this.INTERSECTED.material.opacity = this.INTERSECTED.originalOpacity;
+						}
+
+					}
+					// remove previous intersection object reference
+					// by setting current intersection object to "nothing"
+					this.INTERSECTED = null;
+				}
+
+			}
 		},
 		mouseup( e ) {
-			let intersects = this.raycaster.intersectObjects( this.$store.state.scene.children, true );
-			/*let intersects = this.raycaster.intersectObject(
-				this.$store.state.scene.getObjectByName("bulbasaur.obj"), true
-			);*/
-			if ( intersects[ 0 ] ) {
-				console.log( intersects[ 0 ].object.name );
-			} else {
-				console.log("Hit nothing");
+			if ( !this.$store.state.move ) {
+				let intersects = this.raycaster.intersectObjects( this.$store.state.scene.children, true );
+				if ( intersects[ 0 ] ) {
+					console.log( intersects[ 0 ].object.name );
+				} else {
+					console.log("Hit nothing");
+				}
 			}
+
 			/*
 			this.$store.commit("toggleDragging");
 			this.styleObject.cursor = "crosshair";

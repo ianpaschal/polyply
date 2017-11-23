@@ -1,117 +1,96 @@
 const Three = require("three");
 let Gizmo = function() {
-
-
-
+	let size = 64;
+	this.size = size;
 	this.init = function() {
+		Three.Object3D.call( this );
+		this.handles = new Three.Object3D();
+		this.pickers = new Three.Object3D();
+		this.planes = new Three.Object3D();
+		this.add( this.handles ); /*lines*/
+		this.add( this.pickers );
+		this.add( this.planes );
 
-
-			this.handles = new THREE.Object3D();
-			this.pickers = new THREE.Object3D();
-			this.planes = new THREE.Object3D();
-
-			this.add( this.handles );
-			this.add( this.pickers );
-			this.add( this.planes );
-
-			//// PLANES
-
-			var planeGeometry = new THREE.PlaneBufferGeometry( 50, 50, 2, 2 );
-			var planeMaterial = new THREE.MeshBasicMaterial({ visible: false, side: THREE.DoubleSide });
-
-			var planes = {
-				"XY":   new THREE.Mesh( planeGeometry, planeMaterial ),
-				"YZ":   new THREE.Mesh( planeGeometry, planeMaterial ),
-				"XZ":   new THREE.Mesh( planeGeometry, planeMaterial ),
-				"XYZE": new THREE.Mesh( planeGeometry, planeMaterial )
-			};
-
-			this.activePlane = planes[ "XYZE" ];
-
-			planes[ "YZ" ].rotation.set( 0, Math.PI / 2, 0 );
-			planes[ "XZ" ].rotation.set( -Math.PI / 2, 0, 0 );
-
-			for ( var i in planes ) {
-
-				planes[ i ].name = i;
-				this.planes.add( planes[ i ] );
-				this.planes[ i ] = planes[ i ];
-
+		function createHandle( axis ) {
+			let handle = new Three.Object3D();
+			handle.name = "handle";
+			let color = new Three.Color();
+			switch ( axis ){
+				case "x": color.set( 0xff0000 ); break;
+				case "y": color.set( 0x00ff00 ); break;
+				case "z": color.set( 0x0000ff ); break;
 			}
+			// Line:
+			let lineGeo = new Three.Geometry();
+			let lineMat = new Three.LineBasicMaterial({ color: color });
+			lineGeo.vertices.push( new Three.Vector3(), new Three.Vector3() );
+			lineGeo.vertices[ 1 ].y = size;
+			handle.add( new Three.Line( lineGeo, lineMat ) );
+			// Mesh
+			var coneGeo = new Three.ConeBufferGeometry( 4, 16, 32 );
+			var coneMat = new Three.MeshBasicMaterial({ color: color });
+			let cone = new Three.Mesh( coneGeo, coneMat );
+			cone.position.y += size - 8;
+			handle.add( cone );
+			if ( axis === "x") {
+				handle.rotation.z += Math.PI / -2;
+			}
+			if ( axis === "z") {
+				handle.rotation.x += Math.PI / 2;
+			}
+			return handle;
+		}
+		this.handles.add( createHandle("x") );
+		this.handles.add( createHandle("y") );
+		this.handles.add( createHandle("z") );
 
-			//// HANDLES AND PICKERS
-
-			var setupGizmos = function( gizmoMap, parent ) {
-
-				for ( var name in gizmoMap ) {
-
-					for ( i = gizmoMap[ name ].length; i--; ) {
-
-						var object = gizmoMap[ name ][ i ][ 0 ];
-						var position = gizmoMap[ name ][ i ][ 1 ];
-						var rotation = gizmoMap[ name ][ i ][ 2 ];
-
-						object.name = name;
-
-						if ( position ) object.position.set( position[ 0 ], position[ 1 ], position[ 2 ] );
-						if ( rotation ) object.rotation.set( rotation[ 0 ], rotation[ 1 ], rotation[ 2 ] );
-
-						parent.add( object );
-
-					}
-
-				}
-
-			};
-
-			setupGizmos( this.handleGizmos, this.handles );
-			setupGizmos( this.pickerGizmos, this.pickers );
-
-			// reset Transformations
-
-			this.traverse(function( child ) {
-
-				if ( child instanceof THREE.Mesh ) {
-
-					child.updateMatrix();
-
-					var tempGeometry = child.geometry.clone();
-					tempGeometry.applyMatrix( child.matrix );
-					child.geometry = tempGeometry;
-
-					child.position.set( 0, 0, 0 );
-					child.rotation.set( 0, 0, 0 );
-					child.scale.set( 1, 1, 1 );
-
-				}
-
+		function createPlane( axis ) {
+			let handle = new Three.Object3D();
+			let color = new Three.Color( 0xffffff );
+			switch ( axis ){
+				case "x": color.set( 0x00ffff ); break;
+				case "y": color.set( 0xff00ff ); break;
+				case "z": color.set( 0xffff00 ); break;
+			}
+			// Mesh
+			var geometry = new Three.PlaneBufferGeometry( size / 4, size / 4 );
+			var material = new Three.MeshBasicMaterial({
+				color: color,
+				side: Three.DoubleSide,
+				transparent: true,
+				opacity: 0.5
 			});
+			let plane = new Three.Mesh( geometry, material );
 
-		};
+			switch ( axis ){
+				case "x":
+					plane.position.y += size / 8;
+					plane.position.z += size / 8;
+					plane.rotation.y += Math.PI / 2;
+					break;
+				case "y":
+					plane.position.x += size / 8;
+					plane.position.z += size / 8;
+					plane.rotation.x += Math.PI / -2;
+					break;
+				case "z":
+					plane.position.y += size / 8;
+					plane.position.x += size / 8;
+					break;
+			}
+			handle.add( plane );
+			return handle;
+		}
+		this.planes.add( createPlane("x") );
+		this.planes.add( createPlane("y") );
+		this.planes.add( createPlane("z") );
 
-		this.highlight = function( axis ) {
-
-			this.traverse(function( child ) {
-
-				if ( child.material && child.material.highlight ) {
-
-					if ( child.name === axis ) {
-
-						child.material.highlight( true );
-
-					} else {
-
-						child.material.highlight( false );
-
-					}
-
-				}
-
-			});
-
-		};
+	};
+	this.init();
+	return this;
 };
 
-
+Gizmo.prototype = Object.create( Three.Object3D.prototype );
+Gizmo.prototype.constructor = Gizmo;
 
 module.exports = Gizmo;

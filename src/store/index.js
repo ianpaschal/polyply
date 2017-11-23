@@ -18,7 +18,8 @@ module.exports = new Vuex.Store({
 			y: 200,
 			z: 400
 		},
-		sliceThickness: 2
+		sliceThickness: 2,
+		move: true
 	},
 	getters: {},
 	mutations: {
@@ -52,7 +53,7 @@ module.exports = new Vuex.Store({
 			console.log( path );
 			let loader, onLoad, onProgress, onError;
 			// console.log( OBJLoader );
-			loader = new Three.OBJLoader;
+			loader = new STLLoader;
 
 			let model;
 
@@ -69,6 +70,8 @@ module.exports = new Vuex.Store({
 
 				let geometry, material;
 
+				console.log( object );
+
 				if ( object.children ) {
 					geometry = new Three.Geometry().fromBufferGeometry(
 						object.children[ 0 ].geometry
@@ -78,6 +81,7 @@ module.exports = new Vuex.Store({
 				}
 
 				geometry.mergeVertices();
+				geometry.computeBoundingSphere();
 				geometry.computeFaceNormals();
 				geometry.computeVertexNormals();
 
@@ -90,7 +94,7 @@ module.exports = new Vuex.Store({
 					flatShading: true
 				});
 				model = new Three.Mesh( geometry, material );
-				model.rotation.x += Math.PI / 2;
+				// model.rotation.x += Math.PI / 2;
 				model.updateMatrix();
 				// model.name = path.split("\\").pop().split("/").pop();
 				model.name = "model";
@@ -98,7 +102,7 @@ module.exports = new Vuex.Store({
 				console.log( box );
 				// model.position.x += box.min.x - box.max.x;
 				model.position.y -= box.max.y - (Math.abs( box.max.y - box.min.y ) / 2);
-
+				model.updateMatrix();
 				context.state.scene.add( model );
 
 
@@ -106,6 +110,7 @@ module.exports = new Vuex.Store({
 				let slices = Slice( model, context.state.sliceThickness );
 				context.state.scene.add( slices );
 				slices.position.x += 75;
+
 			};
 
 			// Go for it!

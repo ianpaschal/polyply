@@ -1,6 +1,10 @@
 # Polyply
 A Node.js clone of Ultimaker's Cura software.
 
+[![license](https://img.shields.io/github/license/ianpaschal/polyply.svg)]()
+[![label](https://img.shields.io/github/issues-raw/ianpaschal/polyply.svg)]()
+[![Code Climate](https://img.shields.io/codeclimate/github/ianpaschal/polyply.svg)](https://codeclimate.com/github/ianpaschal/polyply)
+
 Polyply can:
 - [x] Import `.stl` files
 - [ ] Import `.obj` files

@@ -24,10 +24,6 @@ export default {
 			mouse: {
 				world: new Three.Vector3(),
 				screen: new Three.Vector2()
-			},
-			quantized: {
-				world: new Three.Vector3(),
-				screen: new Three.Vector2()
 			}
 		};
 	},

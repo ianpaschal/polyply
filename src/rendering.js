@@ -1,3 +1,4 @@
+// Libraries:
 import { app, ipcRenderer } from "electron";
 import FS from "fs";
 import Path from "path";

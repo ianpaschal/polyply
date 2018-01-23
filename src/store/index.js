@@ -19,7 +19,14 @@ module.exports = new Vuex.Store({
 			z: 400
 		},
 		sliceThickness: 2,
-		move: true
+		move: true,
+		gui: {
+			showObjectEdge: true,
+			showGizmos: false,
+			showSceneBorders: true,
+			objectEdgeSize: 8,
+			gizmoSize: 64
+		}
 	},
 	getters: {},
 	mutations: {

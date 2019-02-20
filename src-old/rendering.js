@@ -8,7 +8,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 
 // Components:
-import Frame from "./components/Frame.js";
+import Frame from "../src/components/Frame.js";
 
 // Data:
 import STORE from "./store";
@@ -18,7 +18,7 @@ const OrbitControls = OrbitControlModule( Three );
 
 import buildScene from "./utils/buildScene.js";
 
-const Gizmo = require("./core/Gizmo.js");
+const Gizmo = require("../src/core/Gizmo.js");
 
 let controls, stats, camera, renderer, helper;
 let SCENE = new Three.Scene();

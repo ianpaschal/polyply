@@ -1,8 +1,8 @@
-import SettingItem from './SettingItem';
-import Machine from './Machine';
-import SettingsLayer from './SettingsLayer';
-import HardwareItem from './HardwareItem';
-import PrintableItem from './PrintableItem';
+import SettingItem from './core/SettingItem';
+import Machine from './core/Machine';
+import SettingsLayer from './core/SettingsLayer';
+import HardwareItem from './core/HardwareItem';
+import PrintableItem from './core/PrintableItem';
 
 /*
 

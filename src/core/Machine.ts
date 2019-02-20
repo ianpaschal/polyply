@@ -1,49 +1,49 @@
-import SettingsLayer from './SettingsLayer';
+import SettingsLayer from "./SettingsLayer";
 
 export default class Machine {
 
-    _props: {};
-    _nozzles: any;
+	_props: {};
+	_nozzles: any;
 
-    _name: string;
+	_name: string;
 
-    constructor() {
-        this._props = {};
-        this._nozzles = [];
-    }
-    /**
-     * @description Add a hardware component to the machine. This sets values in the machine's
-     * properties, which are immutable
-     * @param properties 
-     */
-    addHardware( type:any, properties:any ) {
+	constructor() {
+		this._props = {};
+		this._nozzles = [];
+	}
+	/**
+	 * @description Add a hardware component to the machine. This sets values in the machine's
+	 * properties, which are immutable
+	 * @param properties
+	 */
+	addHardware( type:any, properties:any ) {
 
-        if (type === "nozzle") {
+		if ( type === "nozzle" ) {
 
-        }
-    }
+		}
+	}
 
-    get props() {
-        return this._props
-    }
+	get props() {
+		return this._props;
+	}
 
-    addExtruderSettings( index:number, settings:SettingsLayer ) {
+	addExtruderSettings( index:number, settings:SettingsLayer ) {
 
-    }
+	}
 
-    get settingsGraph() {
-        return {}
-    }
+	get settingsGraph() {
+		return {};
+	}
 
-    get flattenedSettingsGraph() {
-        return {}
-    }
+	get flattenedSettingsGraph() {
+		return {};
+	}
 
-    get name() {
-        return this._name;
-    }
+	get name() {
+		return this._name;
+	}
 
-    set name(value) {
-        this._name = value;
-    }
+	set name( value ) {
+		this._name = value;
+	}
 }

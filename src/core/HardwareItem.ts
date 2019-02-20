@@ -3,7 +3,7 @@
  */
 export default class HardwareItem {
 
-    constructor( id:string, properties:{} ) {
+	constructor( id:string, properties:{}) {
 
-    }
+	}
 }

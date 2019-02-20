@@ -2,7 +2,7 @@
   "name": "polyply",
   "version": "0.0.0",
   "title": "Polyply",
-  "description": "A Node.js clone of Ultimaker's Cura software.",
+  "description": "A Electron slicer for 3D printing.",
   "keywords": [],
   "license": "MIT",
   "author": "Ian Paschal",
@@ -16,28 +16,40 @@
   },
   "dependencies": {
     "bonjour": "^3.5.0",
-    "stats-js": "^1.0.0-alpha1",
     "three": "^0.87.1",
     "three-obj-loader": "^1.1.3",
     "three-orbit-controls": "^82.1.0",
     "three-stl-loader": "^1.0.6",
-    "vue": "^2.5.13",
-    "vuex": "^3.0.0"
+    "mousetrap": "^1.6.2",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-redux": "^5.0.7",
+    "redux": "^4.0.0",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "css-loader": "^0.25.0",
-    "electron": "^1.8.8",
+    "@types/mousetrap": "^1.6.0",
+    "@types/node": "^8.0.2",
+    "@types/react": "^16.0.5",
+    "@types/react-dom": "16.0.3",
+    "@types/react-redux": "^6.0.9",
+    "@types/uuid": "^3.4.4",
+    "electron": "1.8.8",
     "electron-builder": "^19.55.2",
     "electron-reload": "^1.4.0",
-    "file-loader": "^0.9.0",
-    "vue-loader": "^9.5.1",
-    "webpack": "^2.1.0-beta.22"
+    "eslint": "^5.5.0",
+    "parcel-bundler": "^1.10.0",
+    "typescript": "^2.4.1",
+    "typescript-eslint-parser": "^18.0.0"
   },
   "main": "src/main.js",
   "scripts": {
-    "start": "electron .",
-    "pack": "webpack -d",
-    "dist": "electron-builder"
+    "build": "npm run build-main && npm run build-renderer",
+    "build-main": "tsc",
+    "build-renderer": "parcel build ./src/renderer.html --target electron --public-url ./ --out-dir ./dist",
+    "predev": "npm run build-main",
+    "dev": "parcel watch ./src/renderer.html --target electron --public-url ./ --out-dir ./dist",
+    "start": "electron ."
   },
   "build": {
     "appId": "org.ianpaschal",

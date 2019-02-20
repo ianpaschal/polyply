@@ -5,6 +5,8 @@ export default class Machine {
     _props: {};
     _nozzles: any;
 
+    _name: string;
+
     constructor() {
         this._props = {};
         this._nozzles = [];
@@ -35,5 +37,13 @@ export default class Machine {
 
     get flattenedSettingsGraph() {
         return {}
+    }
+
+    get name() {
+        return this._name;
+    }
+
+    set name(value) {
+        this._name = value;
     }
 }

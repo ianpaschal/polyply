@@ -45,5 +45,9 @@ const extruder1Settings = new SettingsLayer([
     new SettingItem("support-extruder", 1)
 ], profileSettings);
 
+const myMachine = new Machine()
+
+
+const machines = [];
 
 

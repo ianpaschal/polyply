@@ -4,25 +4,6 @@ import SettingsLayer from "./core/SettingsLayer";
 import HardwareItem from "./core/HardwareItem";
 import PrintableItem from "./core/PrintableItem";
 
-/*
-
-There is only one stack. It is resolved in a reduxy way.
-
-0. Sensible default settings
-1. Machine settings (aka a machine definition)
-2. Global settings (aka a quality profile)
-3. Extruder settings
-2. Object settings
-
-At each level, there are settings which can be overridden or not.
-
-"setting" = adjustable
-"property" = physical property, constant
-
-Two heirarchies: settingslayers and settingitems
-
-*/
-
 const defaultSettings = new SettingsLayer( [
 	new SettingItem( "", 1 )
 ] );

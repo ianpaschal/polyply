@@ -1,0 +1,18 @@
+* {
+	border: none;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	position: relative;
+	/* System Fonts as used by GitHub */
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	font-size: 13px;
+}
+
+body, html, #root {
+	width: 100%;
+	height: 100%;
+}
+::-webkit-scrollbar {
+	display: none;
+}

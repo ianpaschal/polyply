@@ -1,6 +1,6 @@
 import Machine from "./Machine";
 
-class App {
+class MachineManager {
 	_machines: Machine[];
 	_activeMachine: Machine;
 
@@ -20,6 +20,10 @@ class App {
 			this._machines.push( machine );
 		}
 	}
+
+	init() {
+		// Do nothing for now
+	}
 }
 
-export default App;
+export default MachineManager;

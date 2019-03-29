@@ -39,6 +39,7 @@
     "electron-reload": "^1.4.0",
     "eslint": "^5.5.0",
     "parcel-bundler": "^1.10.0",
+    "random-words": "^1.1.0",
     "typescript": "^2.4.1",
     "typescript-eslint-parser": "^18.0.0"
   },

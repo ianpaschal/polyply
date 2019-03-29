@@ -41,7 +41,7 @@ class UltimakerLANService {
 	 * @param machine
 	 * @param serviceData
 	 */
-	link( machine: Machine, serviceData: any ) {
+	connect( machine: Machine, hostID: any ) {
 		machine.name = serviceData.name;
 		machine.applyHardwareConfiguration( serviceData );
 	}

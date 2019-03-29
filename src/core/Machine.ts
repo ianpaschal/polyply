@@ -2,15 +2,13 @@ import SettingsLayer from "./SettingsLayer";
 
 export default class Machine {
 
-	_props: {};
-	_nozzles: any;
+	_props:any = {};
+	_nozzles:any = [];
 
-	_name: string;
+	_name:string;
+	_firmwareVersion:string = "0.0.0"
+	_hardwareConfigurations:any[] = [];
 
-	constructor() {
-		this._props = {};
-		this._nozzles = [];
-	}
 	/**
 	 * @description Add a hardware component to the machine. This sets values in the machine's
 	 * properties, which are immutable
@@ -45,5 +43,19 @@ export default class Machine {
 
 	set name( value ) {
 		this._name = value;
+	}
+
+	get firmwareVersion() {
+		return this._firmwareVersion;
+	}
+
+	set firmwareVersion( value ) {
+		this._firmwareVersion = value;
+	}
+
+	addHardwareConfiguration( config:any ) {
+		if ( this._hardwareConfigurations.indexOf( config ) === -1 ) {
+			this._hardwareConfigurations.push( config );
+		}
 	}
 }

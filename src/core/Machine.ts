@@ -58,4 +58,8 @@ export default class Machine {
 			this._hardwareConfigurations.push( config );
 		}
 	}
+
+	addConnectionType( config:any ) {
+
+	}
 }

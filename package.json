@@ -64,7 +64,7 @@
     "eslint": "^5.16.0",
     "parcel-bundler": "^1.12.3",
     "random-words": "^1.1.0",
-    "typescript": "^3.4.1",
+    "typescript": "^3.9.2",
     "typescript-eslint-parser": "^22.0.0"
   }
 }

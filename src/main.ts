@@ -1,12 +1,9 @@
-// import HardwareItem from "./core/HardwareItem";
-// import PrintableItem from "./core/PrintableItem";
-// import SettingItem from "./core/SettingItem";
-// import SettingsLayer from "./core/SettingsLayer";
 import { app, BrowserWindow, ipcMain } from "electron";
 import * as Path from "path";
 import * as URL from "url";
 import BonjourService from "./interfaces/BonjourService";
 import fakeConfig from "./fakeConfig";
+import fakeSettings from "./fakeSettings";
 import Machine from "./core/Machine";
 import MachineManager from "./core/MachineManager";
 
@@ -27,8 +24,9 @@ machineManager.init();
 // When ready, show the main window
 app.on( "ready", () => {
 	mainWindow = new BrowserWindow({
-		width: 800,
-		height: 600
+		width: 1080,
+		height: 640,
+		backgroundColor: "#292C35"
 	});
 	mainWindow.loadURL( startUrl );
 	mainWindow.webContents.openDevTools();
@@ -48,6 +46,8 @@ app.on( "window-all-closed", () => {
 // Printer discovery
 const availableLANPrinters:any = {};
 const browser = bonjour.find({ type: "ultimaker" }, ( service:BonjourService ) => {
+
+	// Use an object instead of array to make sure each printer is unique
 	availableLANPrinters[ service.name ] = service;
 });
 
@@ -55,21 +55,32 @@ browser.start();
 
 // API
 ipcMain.on( "GET_REMOTE_MACHINES", ( e:any, data:any ) => {
-	e.sender.send( "REMOTE_MACHINES", availableLANPrinters );
+	const remoteMachines: { id:string; name:string; }[] = [];
+	Object.keys( availableLANPrinters ).forEach( ( key ) => {
+		remoteMachines.push({
+			id: availableLANPrinters[ key ].name,
+			name: availableLANPrinters[ key ].txt.name
+		});
+	});
+	e.sender.send( "REMOTE_MACHINES", remoteMachines );
 });
 
 ipcMain.on( "ADD_MACHINE", ( e:any, data:any ) => {
 	machineManager.activeMachine = new Machine();
 });
 
-ipcMain.on( "CONNECT_MACHINE_BY_LAN", ( e:any, data:any ) => {
-	const machine = machineManager.activeMachine;
-	const remoteService = availableLANPrinters.find( ( service:BonjourService ) => {
-		return service.name === data.serviceName;
-	});
+ipcMain.on( "CONNECT_TO_MACHINE_BY_LAN", ( e:any, data:any ) => {
+	const remoteService = availableLANPrinters[ data.serviceName ];
+	if ( !remoteService ) {
+		return;
+	}
 	const remoteData = remoteService.txt;
 	const remoteConfiguration = fakeConfig;
 
+	if ( !machineManager.activeMachine ) {
+		machineManager.activeMachine = new Machine();
+	}
+	const machine = machineManager.activeMachine;
 	machine.name = remoteData.name;
 	machine.firmwareVersion = remoteData.firmware_version;
 	machine.addHardwareConfiguration( remoteConfiguration );
@@ -79,26 +90,16 @@ ipcMain.on( "CONNECT_MACHINE_BY_LAN", ( e:any, data:any ) => {
 		address: remoteService.addresses[ 0 ],
 		port: remoteService.port
 	});
+
+	machine.settings = fakeSettings;
+
+	console.log( "Success!", machine.name );
+	e.sender.send( "ACTIVE_MACHINE", {
+		name: machine.name,
+		settings: machine.settings
+	});
 });
 
-// const defaultSettings = new SettingsLayer( [
-// 	new SettingItem( "", 1 )
-// ] );
+ipcMain.on( "UPDATE_SETTING", ( e:any, data:any ) => {
 
-// const machineSettings = new SettingsLayer( [
-// 	new SettingItem( "", 1 )
-// ], defaultSettings );
-
-// const profileSettings = new SettingsLayer( [
-// 	new SettingItem( "layer-height", 0.1 )
-// ], machineSettings );
-
-// const extruder0Settings = new SettingsLayer( [
-// 	new SettingItem( "wall-extruder", 0 ),
-// 	new SettingItem( "support-extruder", 1 )
-// ], profileSettings );
-
-// const extruder1Settings = new SettingsLayer( [
-// 	new SettingItem( "wall-extruder", 0 ),
-// 	new SettingItem( "support-extruder", 1 )
-// ], profileSettings );
+});

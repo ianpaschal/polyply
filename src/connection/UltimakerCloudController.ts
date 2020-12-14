@@ -1,8 +1,6 @@
-
-
 class UltimakerCloudController {
 
-    init() {
+	init() {
 
-    }
+	}
 }

@@ -1,22 +1,76 @@
-.App {
+:root {
+	--input-field-bg    : #22262B;
+	--input-field-border: #3B434C;
+	--main-text         : #6A7C8E;
+	--main-text-bright  : #E7E7E7;
+	--pane-border       : rgb(24,26,31);
+}
+#app {
 	display: flex;
 	flex-direction: row;
 	width: 100%;
 	height: 100%;
+	color: var(--main-text);
 }
-.NavPane {
-	background: rgb(245,245,245);
-	width: 200px;
-	flex: 0 0 auto;
+li {
+	list-style: none;
 }
-.NavPane li {
+#emptyState {
+	width: 100%;
+	height: 100%;
+}
+#emptyState button {
+	width: auto;
+	height: 24px;
+	border: 1px solid var(--input-field-border);
+	box-sizing: border-box;
+	padding: 3px;
+	line-height: 16px;
+	background-color: var(--input-field-bg);
+	border-radius: 2px;
+	margin: 4px;
+	color: var(--main-text);
+}
+#config-pane {
+	width: 512px;
+	flex: 0 auto;
+	box-sizing: unset;
+	border-right: 1px solid var(--pane-border);
+	display: flex;
+	flex-direction: column;
+	overflow-y: scroll;
+}
+
+.config-section {
+	width: 100%;
+	height: auto;
+	border-bottom: 1px solid var(--pane-border);
+	padding: 16px;
+	box-sizing: unset;
+}
+.config-section h1 {
+	color: var(--main-text-bright);
+	font-weight: 600;
+	line-height: 16px;
+}
+.config-section h2 {
+	text-transform: uppercase;
+	font-size: 11px;
+	font-weight: 400;
+	line-height: 16px;
+}
+#arrange-pane {
+	background: rgb(34,38,43);
+	flex: 1 auto;
+}
+/* .NavPane li {
 	line-height: 18px;
 	color: rgb(48,48,48);
 	height: 24px;
 	padding: 3px 18px;
 	margin-bottom: 2px;
 	/* background-color: #1477ED; */
-	box-sizing: border-box;
+	/*box-sizing: border-box;
 }
 .MainPane {
 	background: white;
@@ -33,7 +87,7 @@
 	width: 200px;
 	flex: 0 0 auto;
 	padding: 8px;
-}
+} */
 ::-webkit-scrollbar {
 	display: none;
 }

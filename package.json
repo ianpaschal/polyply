@@ -21,7 +21,8 @@
     "build-renderer": "parcel build ./src/renderer.html --target electron --public-url ./ --out-dir ./dist",
     "predev": "npm run build-main",
     "dev": "parcel watch ./src/renderer.html --target electron --public-url ./ --out-dir ./dist",
-    "start": "electron ."
+    "start": "electron .",
+    "lint": "eslint --fix --ext .ts,.tsx src/**"
   },
   "build": {
     "appId": "org.ianpaschal",

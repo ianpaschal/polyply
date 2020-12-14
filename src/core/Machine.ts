@@ -1,13 +1,15 @@
 import SettingsLayer from "./SettingsLayer";
+import SettingsItem from "./SettingsItem";
 
 export default class Machine {
 
 	_props:any = {};
-	_nozzles:any = [];
 
 	_name:string;
 	_firmwareVersion:string = "0.0.0"
 	_hardwareConfigurations:any[] = [];
+	_settingsGraph:any = {};
+	settings:SettingsItem[];
 
 	/**
 	 * @description Add a hardware component to the machine. This sets values in the machine's
@@ -30,7 +32,10 @@ export default class Machine {
 	}
 
 	get settingsGraph() {
-		return {};
+		return this._settingsGraph;
+	}
+	set settingsGraph( SettingsLayer ) {
+
 	}
 
 	get flattenedSettingsGraph() {
@@ -60,6 +65,14 @@ export default class Machine {
 	}
 
 	addConnectionType( config:any ) {
+
+	}
+
+	applySettingsGraph( graph:any ) {
+		this._settingsGraph = graph;
+	}
+
+	addSettingLayers( layerIndex:number, ) {
 
 	}
 }

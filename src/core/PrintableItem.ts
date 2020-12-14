@@ -1,4 +1,4 @@
-import SettingsLayer from './SettingsLayer';
+import SettingsLayer from "./SettingsLayer";
 
 export default class PrintableItem {
     _settings: SettingsLayer;
@@ -6,10 +6,10 @@ export default class PrintableItem {
     _supportMeshes: any[];
 
     get settings() {
-        return this._settings;
+    	return this._settings;
     }
 
     set settings( settings:SettingsLayer ) {
-        this._settings = settings;
+    	this._settings = settings;
     }
 }
